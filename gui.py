@@ -2,7 +2,7 @@
 import ipywidgets as widgets
 import matplotlib.pyplot as plt
 import ExoCMD as ExoCMD
-from IPython.display import clear_output
+from IPython.display import clear_output, display
 from IPython.display import Javascript
 
 style = {'description_width': 'initial'}
@@ -14,13 +14,13 @@ planets_path = widgets.Text(
     disabled=False,
     style = style
 )
-#BD_path = widgets.Text(
-#    value='bd_mags.txt',
-#    placeholder='Paste here',
-#    description='Path to brown dwarf database:',
-#    disabled=False,
-#    style = style
-#)
+BD_path = widgets.Text(
+    value='bd_mags.txt',
+    placeholder='Paste here',
+    description='Path to brown dwarf database:',
+    disabled=False,
+    style = style
+)
 
 
 hl1 = widgets.Text(
@@ -856,7 +856,7 @@ def on_button_clicked(b):
                            logg=loggs, CO=COs, Teff=Teffs, colour_by = colour_by.value)
             
         elif tab.selected_index == 4:
-            ExoCMD.ExoCMD_synth(planets_path.value, ax, colour_synth, mag_synth, adjusted = adjusted.value,
+            ExoCMD.ExoCMD_synth(planets_path.value, BD_path.value, ax, colour_synth, mag_synth, adjusted = adjusted.value,
                           colourbar = colourbar.value, bb09 = bb09.value, bbmin = bbmin.value, bbmax = bbmax.value,
                          bbinc = bbinc.value, bb18 = False, synth_file = 'synth_mags.txt')
 

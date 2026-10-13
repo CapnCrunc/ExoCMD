@@ -408,7 +408,7 @@ def ExoCMD_1 (pfile, bdfile, ax, colour, magnitude, adjusted = True, polynomial 
         cbar = plt.colorbar(im, orientation = 'horizontal', fraction = 0.08, pad = 0.09, label = 'Spectral Class')
         cbar.set_ticks([1,1.5, 2, 2.5, 3, 3.5, 4])
         cbar.set_ticklabels(['M0', 'M5', 'L0', 'L5', 'T0', 'T5', 'Y0'])
-    dwarf_yerr = dwarf_errs[magnitude]
+    dwarf_yerr = np.array(np.abs(dwarf_errs[magnitude]))
     dwarf_xerr = np.array(np.sqrt((dwarf_errs[split[0]])**2 + (dwarf_errs[split[1]])**2))
     import matplotlib
     norm = matplotlib.colors.Normalize(vmin=1, vmax=4, clip=True)
@@ -477,7 +477,7 @@ def ExoCMD_2 (pfile, bdfile, ax, colour, magnitude, adjusted = True, bb09 = True
     split = colour.split('-')
     col = np.array(abs_mags_dwarfs[split[0]] - abs_mags_dwarfs[split[1]])
     mag = abs_mags_dwarfs[magnitude]
-    dwarf_yerr = dwarf_errs[magnitude]
+    dwarf_yerr = np.array(np.abs(dwarf_errs[magnitude]))
     dwarf_xerr = np.array(np.sqrt((dwarf_errs[split[0]])**2 + (dwarf_errs[split[1]])**2))
     ax.scatter(col, mag, c = 'lightgrey', marker = 'D', s = 50)
     ax.errorbar(col, mag, xerr=dwarf_xerr, fmt = 'none', yerr=dwarf_yerr, c = 'lightgrey', elinewidth=0.9, barsabove=False, zorder = 0)
@@ -558,7 +558,7 @@ def ExoCMD_3 (pfile, bdfile, ax, colour, magnitude, adjusted = True, bb09 = True
     split = colour.split('-')
     col = np.array(abs_mags_dwarfs[split[0]] - abs_mags_dwarfs[split[1]])
     mag = abs_mags_dwarfs[magnitude]
-    dwarf_yerr = dwarf_errs[magnitude]
+    dwarf_yerr = np.array(np.abs(dwarf_errs[magnitude]))
     dwarf_xerr = np.array(np.sqrt((dwarf_errs[split[0]])**2 + (dwarf_errs[split[1]])**2))
     ax.scatter(col, mag, c = 'lightgrey', marker = 'D', s = 50)
     ax.errorbar(col, mag, xerr=dwarf_xerr, fmt = 'none', yerr=dwarf_yerr, c = 'lightgrey', elinewidth=0.9, barsabove=False, zorder = 0)
@@ -582,8 +582,8 @@ def ExoCMD_3 (pfile, bdfile, ax, colour, magnitude, adjusted = True, bb09 = True
     mag_pl_adj = adj_pl[magnitude]
     col_pl = np.array(abs_mags_pl1[split[0]] - abs_mags_pl1[split[1]])
     ax.invert_yaxis()
-    pl_yerr = pl_errs1[magnitude]
-    pl_xerr = np.array(np.sqrt((pl_errs1[split[0]])**2 + (pl_errs1[split[0]])**2))
+    pl_yerr = np.array(np.abs(pl_errs1[magnitude]))
+    pl_xerr = np.array(np.sqrt((pl_errs1[split[0]])**2 + (pl_errs1[split[1]])**2))
     if adjusted == True:
         ax.scatter (col_pl, mag_pl_adj, c ='grey', marker = 'o', s=70, zorder = 11)
         ax.scatter (col_pl, mag_pl_adj, c ='lightgrey', marker = 'o', s=35, zorder = 12)
