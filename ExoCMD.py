@@ -366,19 +366,19 @@ def poly(band):
 
 newcmap = cm.get_cmap('hot_r', 512)
 newcmp = ListedColormap(newcmap(np.linspace(0.35, 1.0, 256)))
-plt.register_cmap(cmap=newcmp)
+#plt.colormaps.register(cmap=newcmp)
 
 newcmap1 = cm.get_cmap('hot_r', 512)
 newcmp1 = ListedColormap(newcmap1(np.linspace(0.3, 1.0, 256)))
-plt.register_cmap(cmap=newcmp1)
+#plt.colormaps.register(cmap=newcmp1)
 
 newcmap2 = cm.get_cmap('Greens', 512)
 CO_cmap = ListedColormap(newcmap2(np.linspace(0.35, 1.0, 256)))
-plt.register_cmap(cmap=CO_cmap)
+#plt.colormaps.register(cmap=CO_cmap)
 
 newcmap3 = cm.get_cmap('Reds_r', 512)
 Teff_cmap = ListedColormap(newcmap3(np.linspace(0, 0.65, 256)))
-plt.register_cmap(cmap=Teff_cmap)
+#plt.colormaps.register(cmap=Teff_cmap)
 
 
 def add (ax, col, mag, name, col_err = 0, mag_err = 0, c = '#87F9F5'):

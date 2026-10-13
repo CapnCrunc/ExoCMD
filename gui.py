@@ -14,13 +14,13 @@ planets_path = widgets.Text(
     disabled=False,
     style = style
 )
-BD_path = widgets.Text(
-    value='bd_mags.txt',
-    placeholder='Paste here',
-    description='Path to brown dwarf database:',
-    disabled=False,
-    style = style
-)
+#BD_path = widgets.Text(
+#    value='bd_mags.txt',
+#    placeholder='Paste here',
+#    description='Path to brown dwarf database:',
+#    disabled=False,
+#    style = style
+#)
 
 
 hl1 = widgets.Text(
