@@ -181,7 +181,7 @@ c10 = widgets.ColorPicker(
 
 
 band1 = widgets.Dropdown(
-    options=['J', 'H', 'K', '3.6', '4.5', '5.8', '8.0'],
+    options=['J', 'Hi', 'K', '3.6', '4.5', '5.8', '8.0'],
     value='J',
     description=' Colour Band 1:',
     disabled=False,

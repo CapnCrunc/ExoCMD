@@ -12,4 +12,6 @@ from astroquery.open_exoplanet_catalogue import findvalue
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 cat = oec.get_catalogue()
-print(cat)
+
+for planet in cat.findall(".//planet"):
+    print(findvalue(planet, "name"))
