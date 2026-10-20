@@ -1,0 +1,36 @@
+Planet	T_eq(K)	Absorption (A_H)	Absorption (A_H)	Absorption (A_H)	Absorption (A_H)	Reference	
+		1.1-1.65 mum	1.3-1.65 mum	1.1-1.65 mum	1.3-1.65 mum	
+GJ 436 b	633 +or- 58	0.22 +or- 0.53	0.06 +or- 0.73	1.16 +or- 0.52	0.87 +or- 0.71	Knutson et al. (2014a)	
+GJ 3470 b	692 +or- 101	0.70 +or- 0.30	0.29 +or- 0.41	cdots	cdots	cdots	
+HAT-P-1 b	1320 +or- 103	1.50 +or- 0.33	1.27 +or- 0.35	2.51 +or- 0.35	2.88 +or- 0.42	Wakeford et al. (2013)	
+HAT-P-3 b	1127 +or- 68	0.22 +or- 0.59	0.52 +or- 0.74	cdots	cdots	cdots	
+HAT-P-11 b	856 +or- 37	2.96 +or- 0.62	2.31 +or- 0.71	3.21 +or- 0.64	2.70 +or- 0.82	Fraine et al. (2014)	
+HAT-P-12 b	958 +or- 28	0.49 +or- 0.21	0.42 +or- 0.25	cdots	cdots	cdots	
+HAT-P-17 b	780 +or- 34	0.47 +or- 0.60	0.27 +or- 0.78	cdots	cdots	cdots	
+HAT-P-18 b	843 +or- 35	0.90 +or- 0.21	0.51 +or- 0.28	cdots	cdots	cdots	
+HAT-P-26 b	980 +or- 56	2.35 +or- 0.26	1.92 +or- 0.31	2.22 +or- 0.18	1.89 +or- 0.20	Wakeford et al. (2017)	
+HAT-P-32 b	1784 +or- 58	1.48 +or- 0.22	1.30 +or- 0.28	cdots	cdots	cdots	
+HAT-P-38 b	1080 +or- 78	1.60 +or- 0.56	2.03 +or- 0.66	cdots	cdots	cdots	
+HAT-P-41 b	1937 +or- 74	1.70 +or- 0.39	1.96 +or- 0.45	cdots	cdots	cdots	
+HD149026 b	1627 +or- 83	0.79 +or- 0.48	1.09 +or- 0.56	cdots	cdots	cdots	
+HD189733 b	1201 +or- 51	2.31 +or- 0.40	1.45 +or- 0.47	1.99 +or- 0.30	1.59 +or- 0.34	McCullough et al. (2014)	
+HD209458 b	1449 +or- 36	0.88 +or- 0.14	0.78 +or- 0.17	1.26 +or- 0.14	1.12 +or- 0.16	Deming et al. (2013)	
+WASP-12 b	2580 +or- 146	1.60 +or- 0.23	1.62 +or- 0.31	2.07 +or- 0.36	2.07 +or- 0.36	Kreidberg et al. (2015)	
+WASP-29 b	963 +or- 69	0.04 +or- 0.39	0.12 +or- 0.49	cdots	cdots	cdots	
+WASP-31 b	1576 +or- 58	0.94 +or- 0.33	1.14 +or- 0.42	1.08 +or- 0.38	1.77 +or- 0.43	Sing et al. (2015)	
+WASP-39 b	1119 +or- 57	1.27 +or- 0.14	1.22 +or- 0.16	cdots	cdots	cdots	
+WASP-43 b	1374 +or- 147	1.46 +or- 0.43	0.95 +or- 0.46	1.47 +or- 0.45	0.98 +or- 0.51	Kreidberg et al. (2014a)	
+WASP-52 b	1300 +or- 115	1.80 +or- 0.24	1.33 +or- 0.28	cdots	cdots	cdots	
+WASP-63 b	1508 +or- 69	0.58 +or- 0.27	0.39 +or- 0.30	cdots	cdots	cdots	
+WASP-67 b	1026 +or- 59	0.67 +or- 0.52	0.86 +or- 0.70	cdots	cdots	cdots	
+WASP-69 b	964 +or- 38	0.62 +or- 0.11	0.65 +or- 0.13	cdots	cdots	cdots	
+WASP-74 b	1915 +or- 116	0.77 +or- 0.40	0.97 +or- 0.45	cdots	cdots	cdots	
+WASP-76 b	2206 +or- 95	1.35 +or- 0.18	1.62 +or- 0.21	cdots	cdots	cdots	
+WASP-80 b	824 +or- 58	0.38 +or- 0.15	0.51 +or- 0.19	cdots	cdots	cdots	
+WASP-101 b	1552 +or- 81	0.16 +or- 0.25	0.13 +or- 0.27	cdots	cdots	cdots	
+WASP-121 b	2358 +or- 122	2.51 +or- 0.36	2.31 +or- 0.41	cdots	cdots	cdots	
+XO-1 b	1196 +or- 60	2.68 +or- 0.66	3.33 +or- 0.76	2.50 +or- 0.56	3.11 +or- 0.72	Deming et al. (2013)	
+WASP-17b^a	1632 +or- 126	0.93 +or- 0.33	0.44 +or- 0.35	cdots	cdots	cdots	
+WASP-19b^b	2037 +or- 156	2.16 +or- 0.65	1.60 +or- 0.58	cdots	cdots	cdots	
+GJ 1214b^c	573 +or- 35	0.11 +or- 0.09	0.05 +or- 0.13	cdots	cdots	cdots	
+HD97658b^d	753 +or- 33	0.46 +or- 1.10	1.79 +or- 1.46	cdots	cdots	cdots	
