@@ -181,7 +181,7 @@ c10 = widgets.ColorPicker(
 
 
 band1 = widgets.Dropdown(
-    options=['J', 'Hello there', 'K', '3.6', '4.5', '5.8', '8.0'],
+    options=['J', 'H', 'K', '3.6', '4.5', '5.8', '8.0'],
     value='J',
     description=' Colour Band 1:',
     disabled=False,
@@ -701,7 +701,7 @@ accordion5.set_title(2, 'Blackbody properties (optional)')
 children = [accordion, accordion1, accordion2, accordion3, accordion5]
 tab = widgets.Tab()
 tab.children = children
-tab.set_title(0, 'Style 67')
+tab.set_title(0, 'Style 1')
 tab.set_title(1, 'Style 2')
 tab.set_title(2, 'Style 3')
 tab.set_title(3, 'Model Atmospheres')
