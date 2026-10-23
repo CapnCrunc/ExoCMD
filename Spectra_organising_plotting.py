@@ -40,7 +40,7 @@ def main_code(Pnames, Fname, Lskip):
         DepthPosErr = []
         DepthNegErr = []
 
-        for fname in glob.glob(Fname):
+        for fname in glob.glob(Fname + '/*'):
             check = pname in fname
             if check == True:
                 data = np.genfromtxt(fname, skip_header = Lskip, unpack = True)
