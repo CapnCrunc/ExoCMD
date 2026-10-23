@@ -32,7 +32,7 @@ warnings.filterwarnings("ignore", category=RuntimeWarning)
 #for ax in axs.flat:
     #ax.label_outer()
 
-def main_code(Pnames, Fname):
+def main_code(Pnames, Fname, Lskip):
 
     for m, pname in enumerate(Pnames):
         Wavelength = []
@@ -43,7 +43,7 @@ def main_code(Pnames, Fname):
         for fname in glob.glob(Fname):
             check = pname in fname
             if check == True:
-                data = np.genfromtxt(fname, skip_header = 13, unpack = True)
+                data = np.genfromtxt(fname, skip_header = Lskip, unpack = True)
                 wavelength = data[0]
                 depth = data[2]
                 depth_pos_err = data[3]
