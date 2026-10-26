@@ -72,7 +72,7 @@ def main_code(Pnames, Fname, Lskip):
         DepthNegErrSorted = np.array(DepthNegErr[WavelengthPosSort])
 
         SortedData = {'Wavelength(microns)': WavelengthSorted, 
-                      'Transmission Depth(%)': DepthSorted, 
+                      'Emission Depth(%)': DepthSorted, 
                       'Positive Depth Error': DepthPosErrSorted, 
                       'Negative Depth Error': DepthNegErrSorted}
 
@@ -80,23 +80,23 @@ def main_code(Pnames, Fname, Lskip):
         df.to_csv('organised emission spectra output/' + pname, index = False) #output folder name
 
         MinWavelength = WavelengthSorted[0]
-        MinWTransmission = DepthSorted[0]
+        MinWEmission = DepthSorted[0]
         MinWTPErr = DepthPosErrSorted[0]
         MinWTNErr = DepthNegErrSorted[0]
         MaxWavelength = WavelengthSorted[-1]
-        MaxWTransmission = DepthSorted[-1]
+        MaxWEmission = DepthSorted[-1]
         MaxWTPErr = DepthPosErrSorted[-1]
         MaxWTNErr = DepthNegErrSorted[-1]
 
         plt.errorbar(WavelengthSorted, DepthSorted, yerr = np.array([DepthPosErrSorted, DepthNegErrSorted]), fmt = '-o', label = 'Spectrum', 
                      zorder = 1)
-        plt.errorbar(MinWavelength, MinWTransmission, yerr = np.array([[MinWTPErr, MinWTNErr]]).T, fmt = 'o', 
+        plt.errorbar(MinWavelength, MinWEmission, yerr = np.array([[MinWTPErr, MinWTNErr]]).T, fmt = 'o', 
                      label = 'Minimum Wavelength:' + str(MinWavelength), zorder = 2)
-        plt.errorbar(MaxWavelength, MaxWTransmission, yerr = np.array([[MaxWTPErr, MaxWTNErr]]).T, fmt = 'o', 
+        plt.errorbar(MaxWavelength, MaxWEmission, yerr = np.array([[MaxWTPErr, MaxWTNErr]]).T, fmt = 'o', 
                      label = 'Maximum Wavelength:' + str(MaxWavelength), zorder = 2)
         plt.title(pname + ' Spectra')
         plt.xlabel('Wavelength (microns)')
-        plt.ylabel('Transmission Depth (%)')
+        plt.ylabel('Emission Depth (%)')
         plt.legend()
         plt.savefig('emission spectra plots output/' + pname) #output folder name
         plt.show()

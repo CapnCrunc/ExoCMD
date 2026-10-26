@@ -1,4 +1,4 @@
-Wavelength(microns),Transmission Depth(%),Positive Depth Error,Negative Depth Error
+Wavelength(microns),Emission Depth(%),Positive Depth Error,Negative Depth Error
 3.005,0.00138,0.00066,0.00066
 3.005,0.00419,0.00083,0.00071
 3.005,0.00181,0.00065,0.00065
