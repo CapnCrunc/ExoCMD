@@ -33,7 +33,7 @@ def calculations(Bands, Fname, interval, outfilename):
             output.setdefault(str(b) + 'mag_neg_err', [])
             df = pd.read_csv(fname)
             Wavelength = np.array(df['Wavelength(microns)'])
-            Depth = np.array(df['Transmission Depth(%)'])
+            Depth = np.array(df['Depth(%)'])
             PDerr = np.array(df['Positive Depth Error'])
             NDerr = np.array(df['Negative Depth Error'])
             Wrange = []
@@ -62,9 +62,9 @@ def calculations(Bands, Fname, interval, outfilename):
                 appmag = depth_to_appmag(Drange)
                 pamerr = np.abs(dta_err_prop(Drange, PDErange))
                 namerr = np.abs(dta_err_prop(Drange, NDErange))
-                output[str(b) + 'mag'].append(appmag)
-                output[str(b) + 'mag_pos_err'].append(pamerr)
-                output[str(b) + 'mag_neg_err'].append(namerr)
+                output[str(b) + 'mag'].append(float(appmag))
+                output[str(b) + 'mag_pos_err'].append(float(pamerr))
+                output[str(b) + 'mag_neg_err'].append(float(namerr))
                 continue
             else:
                 IntDepth = np.trapz(y = Drange, x = Wrange)

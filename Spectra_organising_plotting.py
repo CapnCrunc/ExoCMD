@@ -72,7 +72,7 @@ def main_code(Pnames, Fname, Lskip):
         DepthNegErrSorted = np.array(DepthNegErr[WavelengthPosSort])
 
         SortedData = {'Wavelength(microns)': WavelengthSorted, 
-                      'Emission Depth(%)': DepthSorted, 
+                      'Depth(%)': DepthSorted, 
                       'Positive Depth Error': DepthPosErrSorted, 
                       'Negative Depth Error': DepthNegErrSorted}
 
