@@ -77,7 +77,7 @@ def main_code(Pnames, Fname, Lskip):
                       'Negative Depth Error': DepthNegErrSorted}
 
         df = pd.DataFrame(SortedData)
-        df.to_csv('spectra organised data output/' + pname, index = False)
+        df.to_csv('organised emission spectra output/' + pname, index = False) #output folder name
 
         MinWavelength = WavelengthSorted[0]
         MinWTransmission = DepthSorted[0]
@@ -98,5 +98,5 @@ def main_code(Pnames, Fname, Lskip):
         plt.xlabel('Wavelength (microns)')
         plt.ylabel('Transmission Depth (%)')
         plt.legend()
-        plt.savefig('spectra plots output/' + pname)
+        plt.savefig('emission spectra plots output/' + pname) #output folder name
         plt.show()

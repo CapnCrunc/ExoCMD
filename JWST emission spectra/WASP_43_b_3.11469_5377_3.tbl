@@ -4,6 +4,9 @@
 \FACILITY='NASA 6.5m James Webb Space Telescope (JWST) Satellite Mission'
 \NOTE='Eureka Pipeline v2'
 \REFERENCE='Bell et al. 2024'
+\
+\
+\
 |CENTRALWAVELNG|BANDWIDTH|ESPECLIPDEP|ESPECLIPDEPERR1|ESPECLIPDEPERR2|ESPECLIPDEPLIM|ESPBRITEMP|ESPBRITEMPERR1|ESPBRITEMPERR2|ESPBRITEMPLIM|OBS_DATE|OBS_DATEERR1|OBS_DATEERR2|
 |        double|   double|     double|         double|         double|          char|    double|        double|        double|         long|    char|      double|      double|
 |       microns|  microns|          %|               |               |              |         K|              |              |             |    days|        days|        days|
