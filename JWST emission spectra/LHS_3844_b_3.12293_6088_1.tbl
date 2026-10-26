@@ -1,0 +1,25 @@
+\PL_NAME = LHS 3844 b
+\SPEC_TYPE = Eclipse
+\SPEC_NUM = 1
+\INSTRUMENT = Mid-Infrared Instrument (MIRI) - LRS
+\FACILITY = NASA 6.5m James Webb Space Telescope (JWST) Satellite Mission
+\NOTE = from Supplementary Table 4; figure 2
+\REFERENCE = Zieba et al. 2026
+\
+\
+|CENTRALWAVELNG|BANDWIDTH|ESPECLIPDEP|ESPECLIPDEPERR1|ESPECLIPDEPERR2|ESPECLIPDEPLIM|ESPBRITEMP|ESPBRITEMPERR1|ESPBRITEMPERR2|ESPBRITEMPLIM|OBS_DATE|OBS_DATEERR1|OBS_DATEERR2|
+|        double|   double|     double|         double|         double|          char|    double|        double|        double|         long|    char|        char|        char|
+|       microns|  microns|          %|               |               |              |         K|              |              |             |    days|        days|        days|
+|          null|     null|       null|           null|           null|          null|      null|          null|          null|         null|    null|        null|        null|
+        5.36450   0.60900     0.05599         0.00349        -0.00354           null       null           null           null             0     null         null         null 
+        5.97350   0.60900     0.05876         0.00352        -0.00355           null       null           null           null             0     null         null         null 
+        6.58250   0.60900     0.06403         0.00402        -0.00397           null       null           null           null             0     null         null         null 
+        7.19150   0.60900     0.06785         0.00428        -0.00432           null       null           null           null             0     null         null         null 
+        7.80050   0.60900     0.07268         0.00492        -0.00484           null       null           null           null             0     null         null         null 
+        8.40950   0.60900     0.08825         0.00584        -0.00569           null       null           null           null             0     null         null         null 
+        9.01850   0.60900     0.08464         0.00651        -0.00652           null       null           null           null             0     null         null         null 
+        9.62750   0.60900     0.08666         0.00696        -0.00692           null       null           null           null             0     null         null         null 
+       10.23650   0.60900     0.08610         0.00817        -0.00819           null       null           null           null             0     null         null         null 
+       10.84550   0.60900     0.07202         0.01222        -0.01220           null       null           null           null             0     null         null         null 
+       11.45450   0.60900     0.07165         0.01909        -0.01919           null       null           null           null             0     null         null         null 
+       12.06350   0.60900     0.10502         0.03130        -0.03101           null       null           null           null             0     null         null         null 

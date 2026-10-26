@@ -68,8 +68,8 @@ def calculations(Bands, Fname, interval, outfilename):
                 continue
             else:
                 IntDepth = np.trapz(y = Drange, x = Wrange)
-                IPDerr = np.average(PDErange)
-                INDerr = np.average(NDErange)
+                IPDerr = np.sqrt(np.sum(PDErange**2)/(len(PDErange)))
+                INDerr = np.sqrt(np.sum(NDErange**2)/(len(NDErange)))
                 appmag = depth_to_appmag(IntDepth)
                 pamerr = np.abs(dta_err_prop(IntDepth, IPDerr))
                 namerr = np.abs(dta_err_prop(IntDepth, INDerr))
