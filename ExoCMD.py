@@ -201,8 +201,8 @@ def dwarf_abs_mag(distance_modulus, app_mag):
 def brown_dwarfs(bd_fname):
 
 
-    BD = np.genfromtxt(bd_fname, comments = '#', unpack = True, dtype = float)
-    BD1 = np.genfromtxt(bd_fname, comments = '#', unpack = True, dtype = str)
+    BD = np.genfromtxt(bd_fname, comments = '#', unpack = True, dtype = float, delimiter = ',')
+    BD1 = np.genfromtxt(bd_fname, comments = '#', unpack = True, dtype = str, delimiter = ',')
     spectral_types = BD1[1]
     distance_moduli = BD[2]
     distance_moduli_errs = BD[3]
