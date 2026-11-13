@@ -1,3 +1,6 @@
+from astroquery.simbad import Simbad
+from astropy import coordinates as coords
+from astroquery.ipac.nexsci.nasa_exoplanet_archive import NasaExoplanetArchive as nea
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -7,42 +10,88 @@ from matplotlib import cm
 from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 import warnings
 import astropy as ap
-from astroquery.ipac.nexsci.nasa_exoplanet_archive import NasaExoplanetArchive as nea
 import glob
 import pandas as pd
+from difflib import SequenceMatcher
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 
-def depth_to_absmag(pname, depth, type):
+def find_stellar_mag(outname):
+    Simbad.server = "simbad.harvard.edu"
+    Simbad.add_votable_fields('J', 'H', 'K')
+
+    output = {}
+    output.setdefault('Stellar Name', [])
+    output.setdefault('J mag', [])
+    output.setdefault('H mag', [])
+    output.setdefault('K mag', [])
+
+    for pname in glob.glob("organised emission spectra output/*"):
+        pname = pname.replace('organised emission spectra output', '')
+        backslash = pname[0]
+        pname = pname.replace(backslash, '')
+        pname = pname.replace('_', ' ')
+        sname = nea.query_object(pname, table = "pscomppars", select = 'hostname')[0][0]
+        dist = find_distance(pname)
+        result = Simbad.query_object(sname)[0]
+        output['Stellar Name'].append(result['matched_id'])
+        output['J mag'].append(app_to_abs(float(result['J']), dist))
+        output['H mag'].append(app_to_abs(float(result['H']), dist))
+        output['K mag'].append(app_to_abs(float(result['K']), dist))
+
+    df = pd.DataFrame(output)
+    df.to_csv('depth to mag output/stellar mags/' + outname + '.csv')
+
+def find_distance(pname):
+    dist = str(nea.query_object(pname, table = 'pscomppars', select = 'sy_dist')[0][0])
+    dist = dist.replace(' pc', '')
+    dist = float(dist)
+    return dist
+
+def app_to_abs(app, dist):
+    return app - 5*np.log10(dist/10)
+    
+def pdepth_to_absmag(pname, depth, type, m_s):
     if type == 'depth':
-        m_s = str(nea.query_object(pname, table = 'pscomppars', select = 'sy_vmag')[0][0])
-        m_s = float(m_s)
         app = -2.5*np.log10(depth/100) + m_s
     elif type == 'irradiance':
         app = -2.5*np.log10(depth/3.61e-11)
     if pname == 'solar spectra adjusted':
         dist = 4.848e-6
     else:
-        dist = str(nea.query_object(pname, table = 'pscomppars', select = 'sy_dist')[0][0])
-        dist = dist.replace(' pc', '')
-        dist = float(dist)
-    return app - 5*np.log10(dist/10)
+        dist = find_distance(pname)
+    return app_to_abs(app, dist)
 
 def dta_err_prop(depth, derr):
     return ((-2.5)/(depth*np.log(10)))*derr
 
-def calculations(Bands, Fname, interval, outfilename, type):
+def calculations(Bands, Fname, interval, outfilename1, outfilename2, type):
+    find_stellar_mag(outfilename2)
     output = {}
     output.setdefault('Planet Name', [])
     if type == 'irradiance':
         flux_name = 'Irradiance(W/m2/nm)'
     elif type == 'depth':
         flux_name = 'Depth(%)'
-    for fname in glob.glob(Fname + '/*'):
+    sdf = pd.read_csv('depth to mag output/stellar mags/' + outfilename2 + '.csv')
+    sname = np.array(sdf['Stellar Name'])
+    sJ = np.array(sdf['J mag'])
+    sH = np.array(sdf['H mag'])
+    sK = np.array(sdf['K mag'])
+    for j, fname in enumerate(glob.glob(Fname + '/*')):
         pname = fname.replace(Fname, '')
         slash = pname[0]
         pname = pname.replace(slash, '')
         output['Planet Name'].append(pname)
         pname = pname.replace('_', ' ')
+        check = SequenceMatcher(None, sname[j], pname).ratio()
+        if check > 0.7:
+            mJ = sJ[j]
+            mH = sH[j]
+            mK = sK[j]
+            sbands = [mJ, mH, mK]
+        else:
+            sbands = [np.nan, np.nan, np.nan]
+            print('planets and stars not in correct order')
         for i, b in enumerate(Bands):
             output.setdefault(str(b) + 'mag', [])
             output.setdefault(str(b) + 'mag_pos_err', [])
@@ -77,7 +126,7 @@ def calculations(Bands, Fname, interval, outfilename, type):
                 output[str(b) + 'mag_neg_err'].append(namerr)
                 continue
             elif len(Drange) == 1:
-                absmag = depth_to_absmag(pname, Drange, type)
+                absmag = pdepth_to_absmag(pname, Drange, type, sbands[i])
                 pamerr = np.abs(dta_err_prop(Drange, PDErange))
                 namerr = np.abs(dta_err_prop(Drange, NDErange))
                 output[str(b) + 'mag'].append(float(absmag))
@@ -88,11 +137,11 @@ def calculations(Bands, Fname, interval, outfilename, type):
                 IntDepth = np.trapz(y = Drange, x = Wrange)
                 IPDerr = np.sqrt(np.sum(PDErange**2)/(len(PDErange)))
                 INDerr = np.sqrt(np.sum(NDErange**2)/(len(NDErange)))
-                absmag = depth_to_absmag(pname, IntDepth, type)
+                absmag = pdepth_to_absmag(pname, IntDepth, type, sbands[i])
                 pamerr = np.abs(dta_err_prop(IntDepth, IPDerr))
                 namerr = np.abs(dta_err_prop(IntDepth, INDerr))
                 output[str(b) + 'mag'].append(absmag)
                 output[str(b) + 'mag_pos_err'].append(pamerr)
                 output[str(b) + 'mag_neg_err'].append(namerr)
     df2 = pd.DataFrame(output)
-    df2.to_csv('depth to mag output/' + outfilename)
+    df2.to_csv('depth to mag output/planet mags/' + outfilename1)
