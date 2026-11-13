@@ -203,6 +203,8 @@ def brown_dwarfs(bd_fname):
 
     BD = np.genfromtxt(bd_fname, comments = '#', unpack = True, dtype = float, delimiter = ',')
     BD1 = np.genfromtxt(bd_fname, comments = '#', unpack = True, dtype = str, delimiter = ',')
+    BD_names = np.genfromtxt(bd_fname, comments = '#', unpack = True, dtype=str, delimiter = ',')
+    BDstar_names = BD_names[0]
     spectral_types = BD1[1]
     distance_moduli = BD[2]
     distance_moduli_errs = BD[3]
@@ -270,7 +272,7 @@ def brown_dwarfs(bd_fname):
     abs_mags_dwarfs = {'J': abs_mags_dwarves_J, 'H': abs_mags_dwarves_H, 'K': abs_mags_dwarves_K, '3.6': abs_mags_dwarves_36, \
                    '4.5': abs_mags_dwarves_45, '5.8': abs_mags_dwarves_58, '8.0': abs_mags_dwarves_80}
     
-    return dwarf_errs, SpT, abs_mags_dwarfs
+    return dwarf_errs, SpT, abs_mags_dwarfs, BDstar_names
 
 #Errors on absolute magnitudes are taken as the errors on apparent magnitudes. 
 #The distance error makes a negligible contribution.
@@ -391,7 +393,7 @@ def add (ax, col, mag, name, col_err = 0, mag_err = 0, c = '#87F9F5'):
 def ExoCMD_1 (pfile, bdfile, ax, colour, magnitude, adjusted = True, polynomial = True, bb09 = False, bb18 = False,
            bbmin = 1000, bbmax = 4000, bbinc = 1000, colourbar = False):
     abs_mags_pl1, adj_pl, pl_errs1, chem, star_names = planet_mags(pfile)
-    dwarf_errs, SpT, abs_mags_dwarfs = brown_dwarfs(bdfile)
+    dwarf_errs, SpT, abs_mags_dwarfs, BDstar_names = brown_dwarfs(bdfile)
     
     ax.tick_params(direction = 'in', which = 'major', right = True, top = True, 
                  labelsize = 12, width = 1, length = 9)
@@ -465,7 +467,7 @@ def ExoCMD_1 (pfile, bdfile, ax, colour, magnitude, adjusted = True, polynomial 
 def ExoCMD_2 (pfile, bdfile, ax, colour, magnitude, adjusted = True, bb09 = True, bb18 = False, bb04 = False, chemical_species = 0, bbmin = 1000, bbmax = 4000, bbinc = 1000,
            colourbar = True):
     abs_mags_pl1, adj_pl, pl_errs1, chem, star_names = planet_mags(pfile)
-    dwarf_errs, SpT, abs_mags_dwarfs = brown_dwarfs(bdfile)
+    dwarf_errs, SpT, abs_mags_dwarfs, BDstar_names = brown_dwarfs(bdfile)
     
     ax.tick_params(direction = 'in', which = 'major', right = True, top = True, 
                  labelsize = 12, width = 1, length = 9)
@@ -546,7 +548,7 @@ def ExoCMD_2 (pfile, bdfile, ax, colour, magnitude, adjusted = True, bb09 = True
 def ExoCMD_3 (pfile, bdfile, ax, colour, magnitude, adjusted = True, bb09 = True, bb18 = False, bb04 = False, chemical_species = 0,
            bbmin = 1000, bbmax = 4000, bbinc = 1000, highlight = 0, colourbar = True):
     abs_mags_pl1, adj_pl, pl_errs1, chem, star_names = planet_mags(pfile)
-    dwarf_errs, SpT, abs_mags_dwarfs = brown_dwarfs(bdfile)
+    dwarf_errs, SpT, abs_mags_dwarfs, BDstar_names = brown_dwarfs(bdfile)
     
     ax.tick_params(direction = 'in', which = 'major', right = True, top = True, 
                  labelsize = 12, width = 1, length = 9)
@@ -617,6 +619,115 @@ def ExoCMD_3 (pfile, bdfile, ax, colour, magnitude, adjusted = True, bb09 = True
                     ax.scatter (col_pl[i], mag_pl_adj[i], c = cs, s = 140, marker = r'$\bigodot$', zorder = 15, label = a[0]+'b')
                     ax.errorbar(col_pl[i], mag_pl_adj[i], fmt='none', xerr=pl_xerr[i], \
                     yerr=pl_yerr[i], elinewidth=0.8, barsabove=False, color = cs, zorder = 13)
+    if bb04 == True:
+        bbmag04 = bbmags(bbbands[magnitude], 0.5, Tbb)
+        bbcolour04 = np.array(bbmags(bbbands[split[0]], 0.5, Tbb) - bbmags(bbbands[split[1]], 0.5, Tbb))
+        ax.scatter(bbcolour04, bbmag04, marker = 'd', color = 'white', edgecolor = 'grey', zorder = 10)
+        ax.plot(bbcolour04, bbmag04, color = 'grey', zorder = 9)
+    if bb09 == True:
+        bbmag09 = bbmags(bbbands[magnitude], 0.9, Tbb)
+        bbcolour09 = np.array(bbmags(bbbands[split[0]], 0.9, Tbb) - bbmags(bbbands[split[1]], 0.9, Tbb))
+        ax.scatter(bbcolour09, bbmag09, marker = 'd', color = 'white', edgecolor = 'black', zorder = 10)
+        ax.plot(bbcolour09, bbmag09, color = 'black', zorder = 9)
+    if bb18 == True:
+        bbmag18 = bbmags(bbbands[magnitude], 1.8, Tbb)
+        bbcolour18 = np.array(bbmags(bbbands[split[0]], 1.8, Tbb) - bbmags(bbbands[split[1]], 1.8, Tbb))
+        ax.scatter(bbcolour18, bbmag18, marker = 'd', color = 'white', edgecolor = 'grey', zorder = 10)
+        ax.plot(bbcolour18, bbmag18, color = 'grey', zorder = 9)
+    ax.legend(fontsize = 'large')
+    return ax
+
+def ExoCMD_4 (pfile, bdfile, ax, colour, magnitude, adjusted = True, bb09 = True, bb18 = False, bb04 = False, chemical_species = 0,
+           bbmin = 1000, bbmax = 4000, bbinc = 1000, highlight = 0, BDhighlight = 0, colourbar = True):
+    abs_mags_pl1, adj_pl, pl_errs1, chem, star_names = planet_mags(pfile)
+    dwarf_errs, SpT, abs_mags_dwarfs, BDstar_names = brown_dwarfs(bdfile)
+    
+    ax.tick_params(direction = 'in', which = 'major', right = True, top = True, 
+                 labelsize = 12, width = 1, length = 9)
+    ax.minorticks_on()
+    ax.tick_params(direction = 'in', which = 'minor', right = True, top = True, 
+                 labelsize = 12, width = 1, length = 4)
+    Tbb = np.arange(bbmin, bbmax, bbinc)
+    poly_spec = np.arange (6.0, 29.5, 0.5)
+    split = colour.split('-')
+    col = np.array(abs_mags_dwarfs[split[0]] - abs_mags_dwarfs[split[1]])
+    mag = abs_mags_dwarfs[magnitude]
+    dwarf_yerr = np.array(np.abs(dwarf_errs[magnitude]))
+    dwarf_xerr = np.array(np.sqrt((dwarf_errs[split[0]])**2 + (dwarf_errs[split[1]])**2))
+    ax.scatter(col, mag, c = 'lightgrey', marker = 'D', s = 50)
+    ax.errorbar(col, mag, xerr=dwarf_xerr, fmt = 'none', yerr=dwarf_yerr, c = 'lightgrey', elinewidth=0.9, barsabove=False, zorder = 0)
+    points = np.array([np.array(poly(split[0])-poly(split[1])), poly(magnitude)]).T.reshape(-1, 1, 2)
+    segments = np.concatenate([points[:-1], points[1:]], axis=1)
+    norm = mpl.colors.Normalize(vmin=1, vmax=35)
+    lc = LineCollection(segments, cmap=newcmp, norm=norm)
+    lc.set_array(poly_spec)
+    lc.set_linewidth(8)
+    im = ax.add_collection(lc)
+    if colourbar == True:
+        
+        cbar = plt.colorbar(im, orientation = 'horizontal', cmap = newcmp, fraction = 0.08, pad = 0.09, label = 'Spectral Class')
+        inc = 23/6
+        cbar.set_ticks([6,(6+inc), (6+2*inc), (6+3*inc), (6+4*inc), (6+5*inc), 29])
+        cbar.set_ticklabels(['M0', 'M5', 'L0', 'L5', 'T0', 'T5', 'Y0'])
+        im.set_clim(6, 29)
+    ax.set_xlabel (colour + ' (mag)', fontsize = 'x-large')
+    ax.set_ylabel (r'$M_{'+magnitude+'}(mag)$', fontsize = 'x-large')
+    mag_pl = abs_mags_pl1[magnitude]
+    mag_pl_adj = adj_pl[magnitude]
+    col_pl = np.array(abs_mags_pl1[split[0]] - abs_mags_pl1[split[1]])
+    ax.invert_yaxis()
+    pl_yerr = np.array(np.abs(pl_errs1[magnitude]))
+    pl_xerr = np.array(np.sqrt((pl_errs1[split[0]])**2 + (pl_errs1[split[1]])**2))
+    if adjusted == True:
+        ax.scatter (col_pl, mag_pl_adj, c ='grey', marker = 'o', s=70, zorder = 11)
+        ax.scatter (col_pl, mag_pl_adj, c ='lightgrey', marker = 'o', s=35, zorder = 12)
+        ax.errorbar(col_pl, mag_pl_adj, fmt='none', xerr=pl_xerr, \
+                 yerr=pl_yerr, elinewidth=0.8, barsabove=False, color = 'grey', zorder = 10)
+        if chemical_species!=0:
+            species = np.argwhere(chem[chemical_species]==1)
+            ax.scatter (col_pl[species], mag_pl_adj[species], c ='black', marker = '.', s=50, edgecolor = 'black', zorder = 11)
+    else:
+        ax.scatter (col_pl, mag_pl, c ='grey', s=45, zorder = 11)
+        ax.scatter (col_pl, mag_pl, c ='lightgrey', s=25, zorder = 12)
+        ax.errorbar(col_pl, mag_pl, fmt='none', xerr=pl_xerr, \
+                 yerr=pl_yerr, elinewidth=0.8, barsabove=False, color = 'grey', zorder = 10)
+        if chemical_species!=0:
+            species = np.argwhere(chem[chemical_species]==1)
+            ax.scatter (col_pl[species], mag_pl[species], c ='black', marker = '.', s=50, edgecolor = 'black', zorder = 11)
+    if highlight != 0:
+        highlight = np.array(highlight)
+        if np.shape(highlight) == (2,):
+            ind = np.argwhere (star_names == highlight[0])
+            ax.scatter (col_pl[ind], mag_pl_adj[ind], c = 'white', s = 120, marker = 'o', zorder = 14)
+            ax.scatter (col_pl[ind], mag_pl_adj[ind], c = highlight[1], s = 140, marker = r'$\bigodot$', zorder = 15, label = highlight[0]+'b')
+            ax.errorbar(col_pl[ind], mag_pl_adj[ind], fmt='none', xerr=float(pl_xerr[ind]), \
+                 yerr=float(pl_yerr[ind]), elinewidth=0.8, barsabove=False, color = highlight[1], zorder = 13)
+        else:
+            for a in highlight:
+                ind = np.argwhere (star_names == a[0])
+                cs = a[1]
+                for i in ind:
+                    ax.scatter (col_pl[i], mag_pl_adj[i], c = 'white', s = 120, marker = 'o', zorder = 14)
+                    ax.scatter (col_pl[i], mag_pl_adj[i], c = cs, s = 140, marker = r'$\bigodot$', zorder = 15, label = a[0]+'b')
+                    ax.errorbar(col_pl[i], mag_pl_adj[i], fmt='none', xerr=pl_xerr[i], \
+                    yerr=pl_yerr[i], elinewidth=0.8, barsabove=False, color = cs, zorder = 13)
+    if BDhighlight != 0:
+        BDhighlight = np.array(BDhighlight)
+        if np.shape(BDhighlight) == (2,):
+            ind = np.argwhere (BDstar_names == BDhighlight[0])
+            ax.scatter (col[ind], mag[ind], c = 'white', s = 120, marker = 'D', zorder = 14)
+            ax.scatter (col[ind], mag[ind], c = BDhighlight[1], s = 140, marker = r'$\diamondsuit$', zorder = 15, label = BDhighlight[0]+'b')
+            ax.errorbar(col[ind], mag[ind], fmt='none', xerr=float(dwarf_xerr[ind]), \
+                yerr=float(dwarf_yerr[ind]), elinewidth=0.8, barsabove=False, color = BDhighlight[1], zorder = 13)
+        else:
+            for a in BDhighlight:
+                ind = np.argwhere (BDstar_names == a[0])
+                cs = a[1]
+                for i in ind:
+                    ax.scatter (col[i], mag[i], c = 'white', s = 120, marker = 'D', zorder = 14)
+                    ax.scatter (col[i], mag[i], c = cs, s = 140, marker = r'$\diamondsuit$', zorder = 15, label = a[0]+'b')
+                    ax.errorbar(col[i], mag[i], fmt='none', xerr=dwarf_xerr[i], \
+                    yerr=dwarf_yerr[i], elinewidth=0.8, barsabove=False, color = cs, zorder = 13)
     if bb04 == True:
         bbmag04 = bbmags(bbbands[magnitude], 0.5, Tbb)
         bbcolour04 = np.array(bbmags(bbbands[split[0]], 0.5, Tbb) - bbmags(bbbands[split[1]], 0.5, Tbb))
@@ -841,7 +952,7 @@ def ExoCMD_model (pfile, bdfile, ax, colour, magnitude, SpT=50, FeH=50, logg=50,
                synth_file = 'synth_mags.txt', 
                bbmin = 1000, bbmax = 4000, bbinc = 1000, colour_by = 'C/O Ratio'):
     abs_mags_pl1, adj_pl, pl_errs1, chem, star_names = planet_mags(pfile)
-    dwarf_errs, SpT_bd, abs_mags_dwarfs = brown_dwarfs(bdfile)
+    dwarf_errs, SpT_bd, abs_mags_dwarfs, BDstar_names = brown_dwarfs(bdfile)
     
     Tbb = np.arange(bbmin, bbmax, bbinc)
     synth_abs, synth_errs, synth_SpT_num = synth_import(synth_file)
