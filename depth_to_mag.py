@@ -16,9 +16,6 @@ from difflib import SequenceMatcher
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 def find_stellar_mag(outname):
-    Simbad.server = "simbad.harvard.edu"
-    Simbad.add_votable_fields('J', 'H', 'K')
-
     output = {}
     output.setdefault('Stellar Name', [])
     output.setdefault('J mag', [])
@@ -31,7 +28,7 @@ def find_stellar_mag(outname):
         pname = pname.replace(backslash, '')
         pname = pname.replace('_', ' ')
         sname = nea.query_object(pname, table = "pscomppars", select = 'hostname')[0][0]
-        dist = find_distance(pname)
+        dist = find_distance(pname)[0]
         result = Simbad.query_object(sname)[0]
         output['Stellar Name'].append(result['matched_id'])
         output['J mag'].append(app_to_abs(float(result['J']), dist))
@@ -42,10 +39,13 @@ def find_stellar_mag(outname):
     df.to_csv('depth to mag output/stellar mags/' + outname + '.csv')
 
 def find_distance(pname):
-    dist = str(nea.query_object(pname, table = 'pscomppars', select = 'sy_dist')[0][0])
+    vals = nea.query_object(pname, table = 'pscomppars', select = 'sy_dist, sy_disterr1, sy_disterr2')[0]
+    dist = str(vals[0])
+    posderr = float(vals[1])
+    negderr = float(vals[2])
     dist = dist.replace(' pc', '')
     dist = float(dist)
-    return dist
+    return dist, posderr, negderr
 
 def app_to_abs(app, dist):
     return app - 5*np.log10(dist/10)
@@ -58,13 +58,17 @@ def pdepth_to_absmag(pname, depth, type, m_s):
     if pname == 'solar spectra adjusted':
         dist = 4.848e-6
     else:
-        dist = find_distance(pname)
+        dist = find_distance(pname)[0]
     return app_to_abs(app, dist)
 
-def dta_err_prop(depth, derr):
-    return ((-2.5)/(depth*np.log(10)))*derr
+def dta_err_prop(depth, derr, dist, Derr):
+    a = (-2.5/(depth*np.log(10)))*derr
+    b = (((1*a)*2) + (-5/(dist*np.log(10)))*Derr)
+    return b
 
 def calculations(Bands, Fname, interval, outfilename1, outfilename2, type):
+    Simbad.server = "simbad.harvard.edu"
+    Simbad.add_votable_fields('J', 'H', 'K')
     find_stellar_mag(outfilename2)
     output = {}
     output.setdefault('Planet Name', [])
@@ -84,6 +88,10 @@ def calculations(Bands, Fname, interval, outfilename1, outfilename2, type):
         output['Planet Name'].append(pname)
         pname = pname.replace('_', ' ')
         check = SequenceMatcher(None, sname[j], pname).ratio()
+        d = find_distance(pname)
+        dist = d[0]
+        pderr = d[1]
+        nderr = np.abs(d[2])
         if check > 0.7:
             mJ = sJ[j]
             mH = sH[j]
@@ -127,8 +135,8 @@ def calculations(Bands, Fname, interval, outfilename1, outfilename2, type):
                 continue
             elif len(Drange) == 1:
                 absmag = pdepth_to_absmag(pname, Drange, type, sbands[i])
-                pamerr = np.abs(dta_err_prop(Drange, PDErange))
-                namerr = np.abs(dta_err_prop(Drange, NDErange))
+                pamerr = np.abs(dta_err_prop(Drange, PDErange, dist, pderr))
+                namerr = np.abs(dta_err_prop(Drange, NDErange, dist, nderr))
                 output[str(b) + 'mag'].append(float(absmag))
                 output[str(b) + 'mag_pos_err'].append(float(pamerr))
                 output[str(b) + 'mag_neg_err'].append(float(namerr))
@@ -138,8 +146,8 @@ def calculations(Bands, Fname, interval, outfilename1, outfilename2, type):
                 IPDerr = np.sqrt(np.sum(PDErange**2)/(len(PDErange)))
                 INDerr = np.sqrt(np.sum(NDErange**2)/(len(NDErange)))
                 absmag = pdepth_to_absmag(pname, IntDepth, type, sbands[i])
-                pamerr = np.abs(dta_err_prop(IntDepth, IPDerr))
-                namerr = np.abs(dta_err_prop(IntDepth, INDerr))
+                pamerr = np.abs(dta_err_prop(IntDepth, IPDerr, dist, pderr))
+                namerr = np.abs(dta_err_prop(IntDepth, INDerr, dist, nderr))
                 output[str(b) + 'mag'].append(absmag)
                 output[str(b) + 'mag_pos_err'].append(pamerr)
                 output[str(b) + 'mag_neg_err'].append(namerr)
