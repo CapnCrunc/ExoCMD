@@ -615,6 +615,65 @@ bbinc = widgets.FloatSlider(
     readout_format='.1f',
 )
 
+bhl1 = widgets.Text(
+    placeholder = 'Insert Here',
+    description = 'Name of highlighted brown dwarf',
+    style = style
+)
+
+bhl2 = widgets.Text(
+    placeholder = 'Insert Here',
+    description = 'Name of highlighted brown dwarf',
+    style = style
+)
+
+bhl3 = widgets.Text(
+    placeholder = 'Insert Here',
+    description = 'Name of highlighted brown dwarf',
+    style = style
+)
+
+bhl4 = widgets.Text(
+    placeholder = 'Insert Here',
+    description = 'Name of highlighted brown dwarf',
+    style = style
+)
+
+bhl5 = widgets.Text(
+    placeholder = 'Insert Here',
+    description = 'Name of highlighted brown dwarf',
+    style = style
+)
+
+bhl6 = widgets.Text(
+    placeholder = 'Insert Here',
+    description = 'Name of highlighted brown dwarf',
+    style = style
+)
+
+bhl7 = widgets.Text(
+    placeholder = 'Insert Here',
+    description = 'Name of highlighted brown dwarf',
+    style = style
+)
+
+bhl8 = widgets.Text(
+    placeholder = 'Insert Here',
+    description = 'Name of highlighted brown dwarf',
+    style = style
+)
+
+bhl9 = widgets.Text(
+    placeholder = 'Insert Here',
+    description = 'Name of highlighted brown dwarf',
+    style = style
+)
+
+bhl10 = widgets.Text(
+    placeholder = 'Insert Here',
+    description = 'Name of highlighted brown dwarf',
+    style = style
+)
 
 bands = widgets.VBox([band1, band2, absmag])
 bands_synth = widgets.VBox([band1_synth, band2_synth, absmag_synth])
@@ -657,9 +716,23 @@ highlight8 = widgets.Box([hl8, c8])
 highlight9 = widgets.Box([hl9, c9])
 highlight10 = widgets.Box([hl10, c10])
 
+BDhighlight1 = widgets.Box([bhl1, c1])
+BDhighlight2 = widgets.Box([bhl2, c2])
+BDhighlight3 = widgets.Box([bhl3, c3])
+BDhighlight4 = widgets.Box([bhl4, c4])
+BDhighlight5 = widgets.Box([bhl5, c5])
+BDhighlight6 = widgets.Box([bhl6, c6])
+BDhighlight7 = widgets.Box([bhl7, c7])
+BDhighlight8 = widgets.Box([bhl8, c8])
+BDhighlight9 = widgets.Box([bhl9, c9])
+BDhighlight10 = widgets.Box([bhl10, c10])
+
 
 highlight = widgets.VBox([highlight1, highlight2, highlight3, highlight4, highlight5, highlight6, 
                           highlight7, highlight8, highlight9, highlight10])
+
+BDhighlight = widgets.VBox([BDhighlight1, BDhighlight2, BDhighlight3, BDhighlight4, BDhighlight5, BDhighlight6, 
+                            BDhighlight7, BDhighlight8, BDhighlight9, BDhighlight10])
 
 accordion = widgets.Accordion(children=[bands, properties1, bboptions])
 accordion.set_title(0, 'Photometric Bands')
@@ -696,9 +769,15 @@ accordion5.set_title(0, 'Photometric Bands')
 accordion5.set_title(1, 'Plot Properties')
 accordion5.set_title(2, 'Blackbody properties (optional)')
 
+accordion6 = widgets.Accordion(children=[bands, properties, bboptions, highlight, BDhighlight])
+accordion6.set_title(0, 'Photometric Bands')
+accordion6.set_title(1, 'Plot Properties')
+accordion6.set_title(2, 'Blackbody properties (optional)')
+accordion6.set_title(3, 'Highlighted Planets (max 10)')
+accordion6.set_title(4, 'Highlighted Brown Dwarves (max 10)')
 
 #tab_contents = [accordion, 'p1']
-children = [accordion, accordion1, accordion2, accordion3, accordion5]
+children = [accordion, accordion1, accordion2, accordion3, accordion5, accordion6]
 tab = widgets.Tab()
 tab.children = children
 tab.set_title(0, 'Style 1')
@@ -706,6 +785,7 @@ tab.set_title(1, 'Style 2')
 tab.set_title(2, 'Style 3')
 tab.set_title(3, 'Model Atmospheres')
 tab.set_title(4, 'Synthetic Magnitudes')
+tab.set_title(5, 'Style 4')
 
 out = widgets.Output(layout={'border': '1px solid black'})
 
@@ -859,6 +939,30 @@ def on_button_clicked(b):
             ExoCMD.ExoCMD_synth(planets_path.value, BD_path.value, ax, colour_synth, mag_synth, adjusted = adjusted.value,
                           colourbar = colourbar.value, bb09 = bb09.value, bbmin = bbmin.value, bbmax = bbmax.value,
                          bbinc = bbinc.value, bb18 = False, synth_file = 'synth_mags.txt')
+
+        elif tab.selected_index == 5:
+            ExoCMD.ExoCMD_4 (planets_path.value, BD_path.value, ax, colour, mag, adjusted = adjusted.value,
+                        colourbar = colourbar.value, bb09 = bb09.value, 
+                        bbmin=bbmin.value, bbmax=bbmax.value, bbinc=bbinc.value, highlight=[[hl1.value.upper(), c1.value]
+                                                                                          , [hl2.value.upper(), c2.value]
+                                                                                          , [hl3.value.upper(), c3.value]
+                                                                                          , [hl4.value.upper(), c4.value]
+                                                                                          , [hl5.value.upper(), c5.value]
+                                                                                          , [hl6.value.upper(), c6.value]
+                                                                                          , [hl7.value.upper(), c7.value]
+                                                                                          , [hl8.value.upper(), c8.value]
+                                                                                          , [hl9.value.upper(), c9.value]
+                                                                                          , [hl10.value.upper(), c10.value]], 
+                                                                                 BDhighlight=[[bhl1.value.upper(), c1.value]
+                                                                                          , [bhl2.value.upper(), c2.value]
+                                                                                          , [bhl3.value.upper(), c3.value]
+                                                                                          , [bhl4.value.upper(), c4.value]
+                                                                                          , [bhl5.value.upper(), c5.value]
+                                                                                          , [bhl6.value.upper(), c6.value]
+                                                                                          , [bhl7.value.upper(), c7.value]
+                                                                                          , [bhl8.value.upper(), c8.value]
+                                                                                          , [bhl9.value.upper(), c9.value]
+                                                                                          , [bhl10.value.upper(), c10.value]])
 
 button.on_click(on_button_clicked)
 

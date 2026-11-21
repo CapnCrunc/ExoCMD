@@ -1,0 +1,27 @@
+  55 Cnc      
+  GJ 1132     
+  GJ 1214     
+  GJ 3473     
+  GJ 367      
+  GJ 436      
+  GJ 486      
+  HD 149026   
+  HD 189733   
+  HD 80606    
+  LHS 1140    
+  LHS 3844    
+  LTT 1445 A  
+  LTT 3780    
+  LTT 9779    
+  TOI-1468    
+  TOI-1685    
+  TOI-561     
+  TRAPPIST-1  
+  TRAPPIST-1  
+  WASP-121    
+  WASP-17     
+  WASP-18     
+  WASP-43     
+  WASP-69     
+  WASP-77 A   
+  WASP-80     
